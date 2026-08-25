@@ -1,0 +1,41 @@
+RF4-DSen V1.08 changes:
+
+- Added rf4_il2cpp_dynamic_reader.py for script.json/dump.cs layout parsing.
+- Resolves Singleton from Il2CppClass.static_fields and traverses List<Rig>.
+- Bite state requires in-water, initialized fight, and positive fight factor.
+- Rejects ambiguous structural matches instead of selecting by address/order.
+
+RF4-DSen V1.07 changes:
+- Added independent FishingSet class-instance rediscovery for recast: current FishingSet -> current Rig root replaces stale root mappings.
+- Corrected U1/U3 reversal by using RodRest physical position consensus instead of rod direction vectors.
+- Added live tiny-region scan before medium/full tiers so startup/recast mapping can settle in seconds instead of the observed ~70s.
+- Kept one-click diagnostic bundle export for future evidence.
+RF4-DSen V1.06 changes:
+- Added one-click diagnostic bundle export under %LOCALAPPDATA%\\RF4-Reminder\\diagnostics and HUD menu item 采集诊断.
+- Bundle contains diagnostics.txt, state.json, config.json, rods/runtime/direct memory debug state.
+- Direct runtime diagnostics now include selected rig candidates, rodrest evidence details, fisher selected sets, final rig mapping, and poll_rods.
+
+RF4-DSen V1.08 source package
+
+Build entry: main.py
+PyInstaller spec: RF4上鱼提醒器.spec
+
+Runtime rule:
+- DirectMemorySource reads rf4_x64.exe only.
+- No rf4db helper backend.
+- No RF4-HELPER TSV/cache files as runtime source.
+
+V1.05 changes:
+- U1/U2/U3 startup no longer sends RF4 1/2/3 hotkeys; that probe can change the game state and make U2/U3 disappear.
+- Fisher discovery scans live object regions first only to collect active FishingSet objects; slot mapping is read-only RodRestController consensus.
+- Partial rig rescans now run every second instead of every 8 seconds while the mapping is incomplete.
+- When one RodRestController is temporarily missing, two measured RodRest controllers plus the three valid live FishingSet roots keep all U1/U2/U3 rods visible instead of degrading to one rod/no rod.
+- FishingSet validation now stores the root Rig class address, so snapshot validation does not invalidate newly found Fisher rigs.
+- Forced refresh really rescans when a previously complete mapping points at rebuilt Unity objects.
+- Live bite display now shows fish name first when species is readable, uses -- for unknown live weight, and marks level as 待确认 until weight/rarity/grade is observed.
+
+Regression checks:
+- python -X utf8 -m unittest -v test_regressions.py
+- python -X utf8 -m py_compile app_v104.py rf4_direct_source.py rf4_thresholds.py
+
+

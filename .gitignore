@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+build/
+dist/
+*.original
+MODIFIED_FILE
+DIFF_FILE.patch
+VERIFICATION.txt
+ROLLBACK.sh
+*.zip
+script.json
+dump.cs
+*.log
+.idea/
+.vscode/
